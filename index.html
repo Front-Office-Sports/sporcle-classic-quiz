@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sporcle-like Quiz</title>
+    <style>
+      #correct-answers {
+        margin-top: 20px;
+        list-style-type: none;
+      }
+      #timer {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Enter world capitals:</h1>
+
+    <input
+      type="text"
+      id="user-input"
+      placeholder="Type your answer..."
+      autocomplete="off"
+    />
+    <button onclick="checkAnswer()">Submit</button>
+    <div id="timer">Time left: <span id="time-left">60</span> seconds</div>
+    <ul id="correct-answers"></ul>
+
+    <script>
+      const correctAnswers = ["Paris", "London", "Tokyo", "Berlin", "Ottawa"]; // You can add more
+      const answered = [];
+      const timeLimit = 60; // 60 seconds
+
+      document
+        .getElementById("user-input")
+        .addEventListener("keypress", function (e) {
+          if (e.key === "Enter") {
+            checkAnswer();
+          }
+        });
+
+      function checkAnswer() {
+        const userInput = document.getElementById("user-input").value;
+        if (
+          correctAnswers.includes(userInput) &&
+          !answered.includes(userInput)
+        ) {
+          answered.push(userInput);
+          const listItem = document.createElement("li");
+          listItem.textContent = userInput;
+          document.getElementById("correct-answers").appendChild(listItem);
+          document.getElementById("user-input").value = "";
+        }
+      }
+
+      function countdown() {
+        const timeElement = document.getElementById("time-left");
+        const currentTime = parseInt(timeElement.textContent);
+        if (currentTime > 0) {
+          timeElement.textContent = currentTime - 1;
+        } else {
+          endQuiz();
+        }
+      }
+
+      function endQuiz() {
+        clearInterval(interval);
+        alert("Time's up!");
+        document.getElementById("user-input").disabled = true;
+      }
+
+      const interval = setInterval(countdown, 1000);
+    </script>
+  </body>
+</html>
