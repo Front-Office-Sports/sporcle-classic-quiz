@@ -1,0 +1,4 @@
+#user-input {
+  border: 2px solid grey; /* initial border color */
+  transition: background-color 0.3s ease; /* smooth color change */
+}

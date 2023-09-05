@@ -110,6 +110,12 @@
         interval = setInterval(countdown, 1000);
       }
 
+      // Listen for input and check if answer is correct
+      document
+        .getElementById("user-input")
+        .addEventListener("input", checkAnswer);
+
+      // Listen for enter key and check if answer is correct
       document
         .getElementById("user-input")
         .addEventListener("keypress", function (e) {
@@ -120,6 +126,7 @@
 
       function checkAnswer() {
         const userInput = document.getElementById("user-input").value;
+        const inputBox = document.getElementById("user-input");
         const lowerCaseUserInput = userInput.toLowerCase();
 
         const question = questions.find((q) => {
@@ -132,6 +139,12 @@
         });
 
         if (question && !answered.includes(question.answer)) {
+          inputBox.style.backgroundColor = "#90EE90"; // change border color to green
+
+          setTimeout(() => {
+            inputBox.style.backgroundColor = "white"; // revert to original color after 0.5 seconds
+          }, 500);
+
           answered.push(question.answer); // Store the correct case answer
           score++;
           document.getElementById("current-score").textContent = score;
