@@ -1,4 +1,36 @@
-#user-input {
-  border: 2px solid grey; /* initial border color */
+* {
+  box-sizing: border-box;
+}
+/* #quiz-controls {
+  display: none;
+} */
+
+/* #timer,
+#score,
+#give-up {
+  margin-top: 20px;
+} */
+
+#answer-input {
+  /* initial border color */
+  /* border: 2px solid grey; */
   transition: background-color 0.3s ease; /* smooth color change */
+}
+
+table {
+  /* margin-top: 20px; */
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+th,
+td {
+  border: 1px solid black;
+  text-align: center;
+  /* width: 150px; */
+  height: 30px;
+}
+
+input[type="text"] {
+  font-size: 16px;
 }

@@ -4,200 +4,108 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sporcle-like Quiz</title>
-    <style>
-      * {
-        box-sizing: border-box;
-      }
-      #quiz-container {
-        display: none;
-      }
-      #timer,
-      #score,
-      #give-up {
-        margin-top: 20px;
-      }
-      table {
-        margin-top: 20px;
-        border-collapse: collapse;
-      }
-      th,
-      td {
-        border: 1px solid black;
-        text-align: center;
-        width: 150px;
-        height: 30px;
-      }
-      input[type="text"] {
-        font-size: 16px;
-      }
-    </style>
+    <!-- import css -->
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Bootstrap JavaScript (optional, only if you need Bootstrap's JavaScript features) -->
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
   </head>
   <body>
-    <h1>Most Valuable Sports Teams</h1>
+    <div class="container border">
+      <!-- quiz title/heading -->
+      <div class="row border">
+        <div class="col-12 text-center border">
+          <h1 class="border">Most Valuable Sports Teams Quiz</h1>
+        </div>
+      </div>
 
-    <button onclick="startQuiz()" id="start-button">Start Quiz</button>
+      <!-- quiz start button, input, timer and score. -->
+      <div class="row border">
+        <!-- Start quiz button. Will be replaced with input field. -->
+        <div
+          id="start-button-holder"
+          class="border col-8 col-lg-6 d-flex align-items-center"
+        >
+          <!-- start quiz button -->
+          <button
+            onclick="startQuiz()"
+            class="btn btn-primary border col-12"
+            id="start-button"
+          >
+            Start Quiz
+          </button>
 
-    <div id="quiz-container">
-      <input
-        type="text"
-        id="user-input"
-        placeholder="Type your answer..."
-        autocomplete="off"
-      />
-      <button onclick="checkAnswer()" id="submit-button">Submit</button>
+          <!-- input field -->
+          <input
+            type="text"
+            id="answer-input"
+            placeholder="Type your answer..."
+            autocomplete="off"
+            class="form-control border col-6 d-none"
+          />
+        </div>
+
+        <!-- score here. -->
+        <div
+          class="border col-2 col-lg-1 d-flex align-items-center justify-content-center"
+        >
+          <div id="score" class="border">
+            <div
+              class="border text-muted text-center"
+              style="font-size: 0.7rem"
+            >
+              Score
+            </div>
+
+            <div class="border">
+              <span id="current-score">0</span>/<span id="max-score">0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- timer here. -->
+        <div
+          class="border col-2 col-lg-1 d-flex align-items-center justify-content-center"
+        >
+          <div id="timer" class="border">
+            <div
+              class="border text-muted text-center"
+              style="font-size: 0.7rem"
+            >
+              Timer
+            </div>
+            <div class="border"><span id="time-left">60</span> sec</div>
+          </div>
+        </div>
+      </div>
+      <!-- start table row -->
+      <div class="row border">
+        <div class="col-12">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="text-center">Team Name</th>
+                  <th class="text-center">Team Value</th>
+                </tr>
+              </thead>
+              <tbody id="correct-answers"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- end table row -->
     </div>
-
-    <table>
-      <thead>
-        <tr>
-          <th>Team Name</th>
-          <th>Team Value</th>
-        </tr>
-      </thead>
-      <tbody id="correct-answers"></tbody>
-    </table>
-
-    <div id="timer">Time left: <span id="time-left">60</span> seconds</div>
-    <div id="score">
-      Score: <span id="current-score">0</span>/<span id="max-score">0</span>
-    </div>
-    <button id="give-up" onclick="endQuiz('giveup')" style="display: none">
-      Give Up
-    </button>
-
-    <script>
-      let interval;
-      let score = 0;
-      const answered = [];
-
-      const questions = [
-        { answer: "Dallas Cowboys", hint: "$8.12 Billion" },
-        { answer: "New England Patriots", hint: "$6.40 Billion" },
-        { answer: "Los Angeles Rams", hint: "$6.20 Billion" },
-        { answer: "New York Yankees", hint: "$6.00 Billion" },
-        { answer: "New York Giants", hint: "$6.00 Billion" },
-        { answer: "New York Knicks", hint: "$5.80 Billion" },
-        { answer: "Chicago Bears", hint: "$5.60 Billion" },
-        { answer: "Golden State Warriors", hint: "$6.20 Billion" },
-        { answer: "Washington Commanders", hint: "$5.60 Billion" },
-        { answer: "Los Angeles Lakers", hint: "$5.50 Billion" },
-      ];
-
-      questions.forEach((question, index) => {
-        question.rowIndex = index;
-      });
-
-      document.getElementById("max-score").textContent = questions.length;
-
-      populateHints();
-
-      function populateHints() {
-        const tableBody = document.getElementById("correct-answers");
-        questions.forEach((question) => {
-          const row = tableBody.insertRow(-1);
-          const cell1 = row.insertCell(0);
-          const cell2 = row.insertCell(1);
-          cell1.innerHTML = '<span class="answer"></span>';
-          cell2.textContent = question.hint;
-        });
-      }
-
-      function startQuiz() {
-        document.getElementById("quiz-container").style.display = "block";
-        document.getElementById("start-button").style.display = "none";
-        document.getElementById("give-up").style.display = "block";
-        document.getElementById("user-input").focus(); // Automatically focus on the text field
-        interval = setInterval(countdown, 1000);
-      }
-
-      // Listen for input and check if answer is correct
-      document
-        .getElementById("user-input")
-        .addEventListener("input", checkAnswer);
-
-      // Listen for enter key and check if answer is correct
-      document
-        .getElementById("user-input")
-        .addEventListener("keypress", function (e) {
-          if (e.key === "Enter") {
-            checkAnswer();
-          }
-        });
-
-      function checkAnswer() {
-        const userInput = document.getElementById("user-input").value;
-        const inputBox = document.getElementById("user-input");
-        const lowerCaseUserInput = userInput.toLowerCase();
-
-        const question = questions.find((q) => {
-          const answerWords = q.answer.split(" ");
-          const lastWord = answerWords[answerWords.length - 1].toLowerCase();
-          return (
-            q.answer.toLowerCase() === lowerCaseUserInput ||
-            lastWord === lowerCaseUserInput
-          );
-        });
-
-        if (question && !answered.includes(question.answer)) {
-          inputBox.style.backgroundColor = "#90EE90"; // change border color to green
-
-          setTimeout(() => {
-            inputBox.style.backgroundColor = "white"; // revert to original color after 0.5 seconds
-          }, 500);
-
-          answered.push(question.answer); // Store the correct case answer
-          score++;
-          document.getElementById("current-score").textContent = score;
-
-          // Populate the answer directly based on rowIndex
-          document.querySelectorAll(".answer")[question.rowIndex].textContent =
-            question.answer;
-
-          if (score === questions.length) {
-            endQuiz("won");
-          }
-
-          document.getElementById("user-input").value = "";
-        }
-      }
-
-      function countdown() {
-        const timeElement = document.getElementById("time-left");
-        const currentTime = parseInt(timeElement.textContent);
-        if (currentTime > 0) {
-          timeElement.textContent = currentTime - 1;
-        } else {
-          endQuiz("timeout");
-        }
-      }
-
-      function endQuiz(reason) {
-        clearInterval(interval);
-        document.getElementById("user-input").disabled = true;
-        document.getElementById("submit-button").disabled = true;
-        document.getElementById("give-up").disabled = true;
-
-        // Populate the table with answers not filled in
-        const tableRows = document.querySelectorAll(".answer");
-        for (let i = 0; i < tableRows.length; i++) {
-          if (tableRows[i].textContent === "") {
-            tableRows[i].textContent = questions[i].answer;
-            tableRows[i].style.color = "red";
-          }
-        }
-
-        let message = `Your score is ${score}/${questions.length}.`;
-
-        setTimeout(() => {
-          if (reason === "timeout") {
-            alert(`Time's up! ${message}`);
-          } else if (reason === "won") {
-            alert(`You won! ${message}`);
-          } else if (reason === "giveup") {
-            alert(`You gave up. ${message}`);
-          }
-        }, 100); // Delay alert by 100ms to give DOM time to update
-      }
-    </script>
   </body>
+
+  <!-- import data from data.js -->
+  <script src="data.js"></script>
+  <!-- import javascript from script.js -->
+  <script src="script.js"></script>
 </html>
