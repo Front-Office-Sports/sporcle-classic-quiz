@@ -17,25 +17,25 @@
     <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
   </head>
   <body>
-    <div class="container border">
+    <div class="container">
       <!-- quiz title/heading -->
-      <div class="row border">
-        <div class="col-12 text-center border">
-          <h1 class="border">Most Valuable Sports Teams Quiz</h1>
+      <div class="row">
+        <div class="col-12 text-center">
+          <h1 class="">Most Valuable Sports Teams Quiz</h1>
         </div>
       </div>
 
       <!-- quiz start button, input, timer and score. -->
-      <div class="row border">
+      <div class="row mb-2">
         <!-- Start quiz button. Will be replaced with input field. -->
         <div
           id="start-button-holder"
-          class="border col-8 col-lg-6 d-flex align-items-center"
+          class="col-8 col-lg-6 d-flex align-items-center"
         >
           <!-- start quiz button -->
           <button
             onclick="startQuiz()"
-            class="btn btn-primary border col-12"
+            class="btn btn-primary col-12"
             id="start-button"
           >
             Start Quiz
@@ -47,23 +47,20 @@
             id="answer-input"
             placeholder="Type your answer..."
             autocomplete="off"
-            class="form-control border col-6 d-none"
+            class="form-control col-6 d-none"
           />
         </div>
 
         <!-- score here. -->
         <div
-          class="border col-2 col-lg-1 d-flex align-items-center justify-content-center"
+          class="col-2 col-lg-1 d-flex align-items-center justify-content-center"
         >
-          <div id="score" class="border">
-            <div
-              class="border text-muted text-center"
-              style="font-size: 0.7rem"
-            >
+          <div id="score" class="">
+            <div class="text-muted text-center" style="font-size: 0.7rem">
               Score
             </div>
 
-            <div class="border">
+            <div class="">
               <span id="current-score">0</span>/<span id="max-score">0</span>
             </div>
           </div>
@@ -71,21 +68,18 @@
 
         <!-- timer here. -->
         <div
-          class="border col-2 col-lg-1 d-flex align-items-center justify-content-center"
+          class="col-2 col-lg-1 d-flex align-items-center justify-content-center"
         >
-          <div id="timer" class="border">
-            <div
-              class="border text-muted text-center"
-              style="font-size: 0.7rem"
-            >
+          <div id="timer" class="">
+            <div class="text-muted text-center" style="font-size: 0.7rem">
               Timer
             </div>
-            <div class="border"><span id="time-left">60</span> sec</div>
+            <div class=""><span id="time-left">60</span> sec</div>
           </div>
         </div>
       </div>
       <!-- start table row -->
-      <div class="row border">
+      <div class="row">
         <div class="col-12">
           <div class="table-responsive">
             <table class="table">

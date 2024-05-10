@@ -95,8 +95,8 @@ function countdown() {
 function endQuiz(reason) {
   clearInterval(interval);
   document.getElementById("answer-input").disabled = true;
-  document.getElementById("submit-button").disabled = true;
-  document.getElementById("give-up").disabled = true;
+  // document.getElementById("submit-button").disabled = true;
+  // document.getElementById("give-up").disabled = true;
 
   // Populate the table with answers not filled in
   const tableRows = document.querySelectorAll(".answer");
