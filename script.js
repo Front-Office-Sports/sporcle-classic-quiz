@@ -95,8 +95,6 @@ function countdown() {
 function endQuiz(reason) {
   clearInterval(interval);
   document.getElementById("answer-input").disabled = true;
-  // document.getElementById("submit-button").disabled = true;
-  // document.getElementById("give-up").disabled = true;
 
   // Populate the table with answers not filled in
   const tableRows = document.querySelectorAll(".answer");
@@ -107,15 +105,29 @@ function endQuiz(reason) {
     }
   }
 
-  let message = `Your score is ${score}/${questions.length}.`;
+  // set the score message
+  let score_message = `Your score is ${score}/${questions.length}.`;
 
-  setTimeout(() => {
-    if (reason === "timeout") {
-      alert(`Time's up! ${message}`);
-    } else if (reason === "won") {
-      alert(`You won! ${message}`);
-    } else if (reason === "giveup") {
-      alert(`You gave up. ${message}`);
-    }
-  }, 100); // Delay alert by 100ms to give DOM time to update
+  if (reason === "timeout") {
+    reason_message = `Time's up!`;
+  } else if (reason === "won") {
+    reason_message = `Congratulations, you won!`;
+  } else if (reason === "giveup") {
+    reason_message = `You gave up!`;
+  }
+
+  // Update the score value
+  document.getElementById("scoreValue").innerText = score_message;
+
+  // Update gameOverModalLabel
+  document.getElementById("gameOverModalLabel").innerText = reason_message;
+
+  // Show the modal
+  $("#gameOverModal").modal("show");
+
+  // // Call displayGameOver after a delay (simulating game over)
+  // setTimeout(() => {
+  //   const score = 100; // Replace with your actual score
+  //   displayGameOver(score);
+  // }, 100); // Delay alert by 100ms to give DOM time to update
 }
